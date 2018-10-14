@@ -1,0 +1,55 @@
+query Viewer {
+  viewer {
+    login
+    bio
+    avatarUrl
+    company
+    location
+  }
+}
+
+query SearchRepository($query: String!) {
+  search(query: $query, type: REPOSITORY, first: 50) {
+    repositoryCount
+    edges {
+      node {
+        ... on Repository {
+          id
+          url
+          name
+          owner {
+            id
+            login
+            avatarUrl
+          }
+          stargazers {
+            totalCount
+          }
+          languages(first: 10) {
+            edges {
+              node {
+                ... on Language {
+                  id
+                  name
+                  color
+                }
+              }
+            }
+          }
+          createdAt,
+          updatedAt,
+          licenseInfo {
+            name
+            nickname
+          }
+        }
+      }
+    }
+    pageInfo {
+      startCursor
+      endCursor
+      hasNextPage
+      hasPreviousPage
+    }
+  }
+}
